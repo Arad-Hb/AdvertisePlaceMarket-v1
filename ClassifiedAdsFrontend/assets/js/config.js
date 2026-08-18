@@ -60,6 +60,7 @@
       adminRejectAdvertisement: id => `/admin/advertisements/${id}/reject`,
       adminDisableAdvertisement: id => `/admin/advertisements/${id}/disable`,
       adminCustomers: "/admin/customers",
+      adminCustomer: id => `/admin/customers/${encodeURIComponent(id)}`,
       adminActivateCustomer: id => `/admin/customers/${encodeURIComponent(id)}/activate`,
       adminDeactivateCustomer: id => `/admin/customers/${encodeURIComponent(id)}/deactivate`,
       adminCategories: "/admin/categories",

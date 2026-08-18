@@ -96,6 +96,34 @@ public class AdminController(
     public async Task<IActionResult> Customers([FromQuery] CustomerSearchModel model)
         => Ok(await adminService.SearchCustomersAsync(model));
 
+    [HttpGet("customers/{id}")]
+    public async Task<IActionResult> Customer(string id)
+    {
+        var result = await adminService.GetCustomerAsync(id);
+        return result is null ? NotFound() : Ok(result);
+    }
+
+    [HttpPost("customers")]
+    public async Task<IActionResult> AddCustomer(CustomerAddEditModel model)
+    {
+        var result = await adminService.AddCustomerAsync(model);
+        return result.Success ? Ok(result) : BadRequest(result);
+    }
+
+    [HttpPut("customers/{id}")]
+    public async Task<IActionResult> UpdateCustomer(string id, CustomerAddEditModel model)
+    {
+        var result = await adminService.UpdateCustomerAsync(id, model);
+        return result.Success ? Ok(result) : (result.Message == "مشتری پیدا نشد." ? NotFound(result) : BadRequest(result));
+    }
+
+    [HttpDelete("customers/{id}")]
+    public async Task<IActionResult> DeleteCustomer(string id)
+    {
+        var result = await adminService.DeleteCustomerAsync(id);
+        return result.Success ? Ok(result) : (result.Message == "مشتری پیدا نشد." ? NotFound(result) : BadRequest(result));
+    }
+
     [HttpPatch("customers/{id}/activate")]
     public async Task<IActionResult> ActivateCustomer(string id)
     {

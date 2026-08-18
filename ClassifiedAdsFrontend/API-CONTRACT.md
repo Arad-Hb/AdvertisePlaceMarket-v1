@@ -138,6 +138,10 @@ The backend also exposes feature/unfeature endpoints, but this frontend intentio
 | Feature | Method | Route |
 |---|---:|---|
 | Customer list | GET | `/api/admin/customers` |
+| Customer details | GET | `/api/admin/customers/{id}` |
+| Create customer | POST | `/api/admin/customers` |
+| Update customer | PUT | `/api/admin/customers/{id}` |
+| Delete customer | DELETE | `/api/admin/customers/{id}` |
 | Activate | PATCH | `/api/admin/customers/{id}/activate` |
 | Deactivate | PATCH | `/api/admin/customers/{id}/deactivate` |
 
@@ -231,7 +235,6 @@ It never uses backend physical disk paths.
 ## API gaps deliberately not faked
 
 - No Messages/Notification API.
-- No customer/admin name/mobile update API.
 - No Admin avatar upload API.
 - No Admin endpoint for editing advertisement content; Admin is a moderation workflow.
 - Admin advertisement detail does not include customer identity even though Admin advertisement list does.

@@ -88,6 +88,28 @@ window.PanelUI = (function () {
     return data;
   }
   function nullableNumber(v) { return v === "" || v === null || v === undefined ? null : Number(v); }
+  function actionBtn(attrs, iconName, color, title) {
+    return `<button type="button" class="panel-action-btn" ${attrs} title="${title}">${icon(iconName, color)}</button>`;
+  }
+  function detailsGrid(rows) {
+    return `<div class="review-details">${rows.map(([label, value]) => `<div class="review-detail"><span>${window.UI.escapeHtml(label)}</span><strong>${value}</strong></div>`).join("")}</div>`;
+  }
+  function openDetailsModal(title, bodyHtml, dialogClass) {
+    let root = document.getElementById("panelDetailsModalRoot");
+    if (!root) {
+      root = document.createElement("div");
+      root.id = "panelDetailsModalRoot";
+      document.body.appendChild(root);
+    }
+    const existing = document.getElementById("panelDetailsModal");
+    if (existing) bootstrap.Modal.getInstance(existing)?.hide();
+    root.innerHTML = `<div class="modal fade panel-modal" id="panelDetailsModal" tabindex="-1"><div class="modal-dialog ${dialogClass || "modal-lg"} modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">${window.UI.escapeHtml(title)}</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">${bodyHtml}</div></div></div></div>`;
+    const el = document.getElementById("panelDetailsModal");
+    const instance = new bootstrap.Modal(el);
+    el.addEventListener("hidden.bs.modal", () => { root.innerHTML = ""; }, { once: true });
+    instance.show();
+    return el;
+  }
 
-  return { colors, icon, loading, empty, error, status, pageModel, items, opMessage, confirmAction, setButtonBusy, renderPagination, serializeForm, nullableNumber };
+  return { colors, icon, loading, empty, error, status, pageModel, items, opMessage, confirmAction, setButtonBusy, renderPagination, serializeForm, nullableNumber, actionBtn, detailsGrid, openDetailsModal };
 })();

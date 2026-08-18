@@ -1,1 +1,14 @@
-namespace DomainModel.ViewModels.Admin; public class CustomerListItem { public string UserID { get; set; }=string.Empty; public string FirstName { get; set; }=string.Empty; public string LastName { get; set; }=string.Empty; public string MobileNumber { get; set; }=string.Empty; public string? AvatarPath { get; set; } public bool IsActive { get; set; } public DateTime CreateDate { get; set; } public string CreateDatePersian { get; set; }=string.Empty; }
+namespace DomainModel.ViewModels.Admin;
+
+public class CustomerListItem
+{
+    public string UserID { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string MobileNumber { get; set; } = string.Empty;
+    public string? Email { get; set; }
+    public string? AvatarPath { get; set; }
+    public bool IsActive { get; set; }
+    public DateTime CreateDate { get; set; }
+    public string CreateDatePersian { get; set; } = string.Empty;
+}
