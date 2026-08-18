@@ -1,0 +1,1 @@
+using DomainModel.ViewModels.Payment; namespace DataAccess.Services.Payment; public interface IPaymentService { Task<PaymentListComplexModel> GetCustomerPaymentsAsync(string userId,PaymentSearchModel model); Task<PaymentListComplexModel> SearchAdminAsync(PaymentSearchModel model); }

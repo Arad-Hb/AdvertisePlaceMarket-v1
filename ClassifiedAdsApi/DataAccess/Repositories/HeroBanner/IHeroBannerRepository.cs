@@ -1,0 +1,1 @@
+namespace DataAccess.Repositories.HeroBanner; public interface IHeroBannerRepository { IQueryable<DomainModel.Models.HeroBanner> Query(bool tracking=false); Task<DomainModel.Models.HeroBanner?> GetByIdAsync(long id,bool tracking=true); Task AddAsync(DomainModel.Models.HeroBanner banner); void Remove(DomainModel.Models.HeroBanner banner); Task<int> SaveChangesAsync(); }

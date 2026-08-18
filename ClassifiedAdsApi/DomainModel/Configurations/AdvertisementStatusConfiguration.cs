@@ -1,0 +1,2 @@
+using DomainModel.Models; using Microsoft.EntityFrameworkCore; using Microsoft.EntityFrameworkCore.Metadata.Builders;
+namespace DomainModel.Configurations; public class AdvertisementStatusConfiguration:IEntityTypeConfiguration<AdvertisementStatus>{ public void Configure(EntityTypeBuilder<AdvertisementStatus>b){ b.HasKey(x=>x.AdvertisementStatusID); b.Property(x=>x.Code).HasMaxLength(30).IsRequired(); b.Property(x=>x.Title).HasMaxLength(80).IsRequired(); b.HasIndex(x=>x.Code).IsUnique(); }}

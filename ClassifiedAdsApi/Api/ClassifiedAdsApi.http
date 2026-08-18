@@ -1,0 +1,67 @@
+@host = http://localhost:5086
+@customerToken = PASTE_CUSTOMER_TOKEN_HERE
+@adminToken = PASTE_ADMIN_TOKEN_HERE
+
+### Home
+GET {{host}}/api/site/home
+
+### Categories
+GET {{host}}/api/categories/menu
+
+### Provinces
+GET {{host}}/api/provinces
+
+### Public advertisements
+GET {{host}}/api/advertisements?pageIndex=1&pageSize=10&sort=newest
+
+### Customer login
+POST {{host}}/api/account/login
+Content-Type: application/json
+
+{
+  "mobileNumber": "09120000002",
+  "password": "Customer@123456",
+  "rememberMe": true
+}
+
+### Simulate membership purchase
+POST {{host}}/api/customer/membership/purchase/1
+Authorization: Bearer {{customerToken}}
+
+### Current membership
+GET {{host}}/api/customer/membership
+Authorization: Bearer {{customerToken}}
+
+### Create draft advertisement - replace IDs after checking categories/provinces/cities
+POST {{host}}/api/customer/advertisements
+Authorization: Bearer {{customerToken}}
+Content-Type: application/json
+
+{
+  "title": "آگهی تست از فایل HTTP",
+  "description": "این آگهی برای تست API ثبت شده است.",
+  "price": 1000000,
+  "phoneNumber": "09120000002",
+  "advertisementCategoryID": 2,
+  "provinceID": 8,
+  "cityID": 1,
+  "isImmediate": true
+}
+
+### Admin login
+POST {{host}}/api/account/login
+Content-Type: application/json
+
+{
+  "mobileNumber": "09120000001",
+  "password": "Admin@123456",
+  "rememberMe": true
+}
+
+### Dashboard
+GET {{host}}/api/admin/dashboard
+Authorization: Bearer {{adminToken}}
+
+### Payment report
+GET {{host}}/api/admin/payments?pageIndex=1&pageSize=10
+Authorization: Bearer {{adminToken}}

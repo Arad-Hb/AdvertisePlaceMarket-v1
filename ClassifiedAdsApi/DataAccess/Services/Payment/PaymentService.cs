@@ -1,0 +1,9 @@
+using DataAccess.Repositories.Payment; using DataAccess.Services.Common; using DomainModel.ViewModels.Payment; using Framework.Common.Extensions;
+namespace DataAccess.Services.Payment;
+public class PaymentService(IPaymentRepository repository,IPaginationService pagination):IPaymentService
+{
+ private IQueryable<PaymentListItem> Project(IQueryable<DomainModel.Models.Payment> q)=>q.OrderByDescending(x=>x.CreateDate).Select(x=>new PaymentListItem{PaymentID=x.PaymentID,UserID=x.UserID,CustomerName=x.User.FirstName+" "+x.User.LastName,MobileNumber=x.User.PhoneNumber??string.Empty,MembershipPlanID=x.MembershipPlanID,MembershipPlanTitle=x.MembershipPlan.Title,Amount=x.Amount,TrackingCode=x.TrackingCode,IsPaid=x.IsPaid,CreateDate=x.CreateDate,CreateDatePersian="",PaidDate=x.PaidDate,PaidDatePersian=null});
+ private static void Dates(IEnumerable<PaymentListItem> items){foreach(var x in items){x.CreateDatePersian=x.CreateDate.ToPersianDateTime();x.PaidDatePersian=x.PaidDate.ToPersianDateTime();}}
+ public async Task<PaymentListComplexModel> GetCustomerPaymentsAsync(string userId,PaymentSearchModel m){var q=repository.Query().Where(x=>x.UserID==userId);var p=Project(q);var items=await pagination.PaginateAsync(p,m);Dates(items);return new(){Items=items,PageModel=m};}
+ public async Task<PaymentListComplexModel> SearchAdminAsync(PaymentSearchModel m){var q=repository.Query();if(!string.IsNullOrWhiteSpace(m.CustomerKeyword))q=q.Where(x=>(x.User.FirstName+" "+x.User.LastName).Contains(m.CustomerKeyword)|| (x.User.PhoneNumber??"").Contains(m.CustomerKeyword));if(m.MembershipPlanID.HasValue)q=q.Where(x=>x.MembershipPlanID==m.MembershipPlanID);if(m.FromDate.HasValue)q=q.Where(x=>x.CreateDate>=m.FromDate.Value);if(m.ToDate.HasValue)q=q.Where(x=>x.CreateDate<m.ToDate.Value.Date.AddDays(1));var p=Project(q);var items=await pagination.PaginateAsync(p,m);Dates(items);return new(){Items=items,PageModel=m};}
+}

@@ -1,0 +1,1 @@
+using DomainModel.Models; namespace DataAccess.Repositories.SiteSetting; public interface ISiteSettingRepository { Task<DomainModel.Models.SiteSetting?> GetAsync(bool tracking=true); Task AddAsync(DomainModel.Models.SiteSetting setting); Task<int> SaveChangesAsync(); }

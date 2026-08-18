@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.Membership; public class MembershipPlanListComplexModel { public List<MembershipPlanListItem> Items { get; set; }=new(); public PageModel PageModel { get; set; }=new(); }

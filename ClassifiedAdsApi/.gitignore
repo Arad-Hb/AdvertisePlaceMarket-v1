@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal
+Api/wwwroot/images/advertisements/originals/*
+Api/wwwroot/images/advertisements/thumbnails/*
+Api/wwwroot/images/users/avatars/*
+Api/wwwroot/images/site/*
+Api/wwwroot/images/hero-banners/*
+!Api/wwwroot/images/**/.gitkeep

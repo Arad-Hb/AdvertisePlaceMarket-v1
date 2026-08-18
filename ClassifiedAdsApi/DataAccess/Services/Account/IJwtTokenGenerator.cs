@@ -1,0 +1,1 @@
+using DomainModel.Models; using DomainModel.ViewModels.Account; namespace DataAccess.Services.Account; public interface IJwtTokenGenerator { LoginResultModel Generate(ApplicationUser user,IList<string> roles,bool rememberMe); }

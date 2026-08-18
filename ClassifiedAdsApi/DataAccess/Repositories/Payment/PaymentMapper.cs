@@ -1,0 +1,1 @@
+namespace DataAccess.Repositories.Payment; public static class PaymentMapper { public static string NewTrackingCode()=> $"SIM-{DateTime.UtcNow:yyyyMMddHHmmss}-{Guid.NewGuid().ToString("N")[..8].ToUpperInvariant()}"; }

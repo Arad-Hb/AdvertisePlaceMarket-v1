@@ -1,0 +1,1 @@
+namespace DomainModel.ViewModels.City; public class CityListItem { public int CityID { get; set; } public string CityName { get; set; }=string.Empty; public int ProvinceID { get; set; } public string ProvinceName { get; set; }=string.Empty; public bool IsActive { get; set; } public int DisplayOrder { get; set; } public string? Slug { get; set; } }

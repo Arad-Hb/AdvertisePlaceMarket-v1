@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.Province; public class ProvinceListComplexModel { public List<ProvinceListItem> Items { get; set; } = new(); public PageModel PageModel { get; set; } = new(); }

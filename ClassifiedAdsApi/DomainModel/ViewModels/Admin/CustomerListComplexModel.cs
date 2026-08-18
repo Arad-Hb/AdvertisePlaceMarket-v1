@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.Admin; public class CustomerListComplexModel { public List<CustomerListItem> Items { get; set; }=new(); public PageModel PageModel { get; set; }=new(); }

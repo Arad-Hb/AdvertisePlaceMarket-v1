@@ -1,0 +1,14 @@
+using DataAccess.Repositories.HeroBanner; using DataAccess.Services.Common; using DomainModel.ViewModels.HeroBanner; using Framework.Common; using Microsoft.EntityFrameworkCore;
+namespace DataAccess.Services.HeroBanner;
+public class HeroBannerService(IHeroBannerRepository repository,IPaginationService pagination):IHeroBannerService
+{
+ private static IQueryable<HeroBannerListItem> Project(IQueryable<DomainModel.Models.HeroBanner> q)=>q.OrderBy(x=>x.SortOrder).Select(x=>new HeroBannerListItem{HeroBannerID=x.HeroBannerID,Title=x.Title,Subtitle=x.Subtitle,ImagePath=x.ImagePath,LinkUrl=x.LinkUrl,ButtonText=x.ButtonText,SortOrder=x.SortOrder,IsActive=x.IsActive});
+ public Task<List<HeroBannerListItem>> GetActiveAsync()=>Project(repository.Query().Where(x=>x.IsActive)).ToListAsync();
+ public async Task<HeroBannerListComplexModel> SearchAsync(HeroBannerSearchModel m){var q=repository.Query();if(!string.IsNullOrWhiteSpace(m.Keyword))q=q.Where(x=>(x.Title??"").Contains(m.Keyword));if(m.IsActive.HasValue)q=q.Where(x=>x.IsActive==m.IsActive);return new(){Items=await pagination.PaginateAsync(Project(q),m),PageModel=m};}
+ public async Task<OperationResult> AddAsync(HeroBannerAddEditModel m){var r=new OperationResult("افزودن بنر");var e=HeroBannerMapper.ToEntity(m);await repository.AddAsync(e);await repository.SaveChangesAsync();return r.ToSuccess("بنر اضافه شد.",e.HeroBannerID);}
+ public async Task<OperationResult> UpdateAsync(long id,HeroBannerAddEditModel m){var r=new OperationResult("ویرایش بنر");var e=await repository.GetByIdAsync(id);if(e is null)return r.ToFailed("بنر پیدا نشد.",id);HeroBannerMapper.MapForUpdate(m,e);await repository.SaveChangesAsync();return r.ToSuccess("بنر ویرایش شد.",id);}
+ public async Task<OperationResult> DeleteAsync(long id){var r=new OperationResult("حذف بنر");var e=await repository.GetByIdAsync(id);if(e is null)return r.ToFailed("بنر پیدا نشد.",id);repository.Remove(e);await repository.SaveChangesAsync();return r.ToSuccess("بنر حذف شد.",id);}
+ public async Task<OperationResult> SetActiveAsync(long id,bool active){var r=new OperationResult(active?"فعال‌سازی بنر":"غیرفعال‌سازی بنر");var e=await repository.GetByIdAsync(id);if(e is null)return r.ToFailed("بنر پیدا نشد.",id);e.IsActive=active;e.UpdateDate=DateTime.Now;await repository.SaveChangesAsync();return r.ToSuccess(active?"بنر فعال شد.":"بنر غیرفعال شد.",id);}
+ public async Task<OperationResult> UpdateImageAsync(long id,string path){var r=new OperationResult("تصویر بنر");var e=await repository.GetByIdAsync(id);if(e is null)return r.ToFailed("بنر پیدا نشد.",id);e.ImagePath=path;e.UpdateDate=DateTime.Now;await repository.SaveChangesAsync();return r.ToSuccess("تصویر بنر ذخیره شد.",id);}
+ public async Task<string?> GetImagePathAsync(long id)=>(await repository.GetByIdAsync(id,false))?.ImagePath;
+}

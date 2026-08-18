@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.Payment; public class PaymentListComplexModel { public List<PaymentListItem> Items { get; set; }=new(); public PageModel PageModel { get; set; }=new(); }

@@ -1,0 +1,1 @@
+using DomainModel.ViewModels.Common; namespace DataAccess.Services.Common; public interface IBreadcrumbService { Task<List<BreadcrumbItemModel>> BuildCategoryAsync(int categoryId); Task<List<BreadcrumbItemModel>> BuildAdvertisementAsync(int categoryId,string advertisementTitle); }

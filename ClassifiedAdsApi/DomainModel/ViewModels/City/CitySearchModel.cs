@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.City; public class CitySearchModel : PageModel { public string? Keyword { get; set; } public int? ProvinceID { get; set; } public bool? IsActive { get; set; } }

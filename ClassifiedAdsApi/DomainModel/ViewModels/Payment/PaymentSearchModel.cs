@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.Payment; public class PaymentSearchModel : PageModel { public string? CustomerKeyword { get; set; } public int? MembershipPlanID { get; set; } public DateTime? FromDate { get; set; } public DateTime? ToDate { get; set; } }

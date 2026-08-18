@@ -1,0 +1,6 @@
+using DomainModel.Models; using Microsoft.EntityFrameworkCore; using Microsoft.EntityFrameworkCore.Metadata.Builders;
+namespace DomainModel.Configurations;
+public class AdvertisementCategoryConfiguration : IEntityTypeConfiguration<AdvertisementCategory>
+{
+ public void Configure(EntityTypeBuilder<AdvertisementCategory> b){ b.HasKey(x=>x.AdvertisementCategoryID); b.Property(x=>x.CategoryName).HasMaxLength(120).IsRequired(); b.Property(x=>x.Lineage).HasMaxLength(100).IsRequired(); b.Property(x=>x.Slug).HasMaxLength(250); b.Property(x=>x.SeoTitle).HasMaxLength(200); b.Property(x=>x.SeoDescription).HasMaxLength(500); b.Property(x=>x.SeoKeywords).HasMaxLength(500); b.Property(x=>x.CanonicalUrl).HasMaxLength(500); b.Property(x=>x.OpenGraphImageUrl).HasMaxLength(500); b.Property(x=>x.Icon).HasMaxLength(200); b.HasIndex(x=>x.Slug).IsUnique().HasFilter("[Slug] IS NOT NULL"); b.HasIndex(x=>new{x.ParentID,x.SortOrder}); b.HasOne(x=>x.Parent).WithMany(x=>x.Children).HasForeignKey(x=>x.ParentID).OnDelete(DeleteBehavior.Restrict); }
+}

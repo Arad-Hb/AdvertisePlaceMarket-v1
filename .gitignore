@@ -1,0 +1,28 @@
+# Build outputs
+**/bin/
+**/obj/
+
+# IDE / editor
+.vs/
+.idea/
+*.user
+*.suo
+.cursor/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Uploaded media (keep folder structure)
+ClassifiedAdsApi/Api/wwwroot/images/advertisements/originals/*
+ClassifiedAdsApi/Api/wwwroot/images/advertisements/thumbnails/*
+ClassifiedAdsApi/Api/wwwroot/images/users/avatars/*
+ClassifiedAdsApi/Api/wwwroot/images/site/*
+ClassifiedAdsApi/Api/wwwroot/images/hero-banners/*
+!ClassifiedAdsApi/Api/wwwroot/images/**/.gitkeep
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,1 @@
+using DomainModel.Models; namespace DataAccess.Repositories.Payment; public interface IPaymentRepository { IQueryable<DomainModel.Models.Payment> Query(bool tracking=false); Task AddAsync(DomainModel.Models.Payment payment); Task<int> SaveChangesAsync(); }

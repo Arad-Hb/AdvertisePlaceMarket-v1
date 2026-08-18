@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.City; public class CityListComplexModel { public List<CityListItem> Items { get; set; }=new(); public PageModel PageModel { get; set; }=new(); }

@@ -1,0 +1,1 @@
+using Framework.Common; namespace DomainModel.ViewModels.HeroBanner; public class HeroBannerListComplexModel { public List<HeroBannerListItem> Items { get; set; }=new(); public PageModel PageModel { get; set; }=new(); }

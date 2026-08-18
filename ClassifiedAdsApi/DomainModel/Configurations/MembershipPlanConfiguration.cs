@@ -1,0 +1,2 @@
+using DomainModel.Models; using Microsoft.EntityFrameworkCore; using Microsoft.EntityFrameworkCore.Metadata.Builders;
+namespace DomainModel.Configurations; public class MembershipPlanConfiguration:IEntityTypeConfiguration<MembershipPlan>{ public void Configure(EntityTypeBuilder<MembershipPlan>b){ b.HasKey(x=>x.MembershipPlanID); b.Property(x=>x.Title).HasMaxLength(100).IsRequired(); b.Property(x=>x.Description).HasMaxLength(1000); b.Property(x=>x.Price).HasPrecision(18,0); }}
