@@ -5,6 +5,8 @@
 
   function currentPage() { return document.body.dataset.page || ""; }
   function activeClass(name) { return currentPage() === name ? "active" : ""; }
+  function currentFile() { return location.pathname.split("/").pop() || "index.html"; }
+  function bottomNavActive(file) { return currentFile() === file ? "is-active" : ""; }
 
   function renderHeader() {
     if (!headerRoot) return;
@@ -22,7 +24,13 @@
       <div class="header-actions" id="headerUserArea"><a class="header-auth" href="login.html" aria-label="ورود یا ثبت نام">${window.UI.icon("user", "#fff")}<span>ورود / ثبت‌نام</span></a><a class="btn header-post" href="login.html?returnUrl=customer/create-advertisement.html">+ ثبت آگهی</a></div>
       <a class="mobile-auth" href="login.html" aria-label="ورود یا ثبت نام">${window.UI.icon("user", "#fff")}</a>
     </div></nav></header>
-    <div class="offcanvas offcanvas-end mobile-offcanvas" tabindex="-1" id="mobileMenu"><div class="offcanvas-header"><strong>منوی سایت</strong><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="بستن"></button></div><div class="offcanvas-body"><a href="index.html">خانه</a><a href="advertisements.html">آگهی‌ها</a><a href="categories.html">دسته‌بندی‌ها</a><a href="pricing.html">تعرفه‌ها</a><div class="mobile-category-list" id="mobileCategoryList">${window.UI.loadingMarkup()}</div><a class="mobile-post-link" href="login.html?returnUrl=customer/create-advertisement.html">+ ثبت آگهی</a></div></div>`;
+    <div class="offcanvas offcanvas-start mobile-offcanvas" tabindex="-1" id="mobileMenu"><div class="offcanvas-header"><strong>دسته‌بندی‌ها</strong><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="بستن"></button></div><div class="offcanvas-body"><div class="mobile-category-list" id="mobileCategoryList">${window.UI.loadingMarkup()}</div><a class="mobile-post-link" href="login.html?returnUrl=customer/create-advertisement.html">+ ثبت آگهی</a></div></div>
+    <nav class="mobile-bottom-nav" aria-label="منوی اصلی">
+      <a class="${bottomNavActive("index.html")}" href="index.html">${window.UI.icon("home", "currentColor")}<span>خانه</span></a>
+      <a class="${["advertisements.html","advertisement-details.html"].includes(currentFile()) ? "is-active" : ""}" href="advertisements.html">${window.UI.icon("pin", "currentColor")}<span>آگهی‌ها</span></a>
+      <a class="${bottomNavActive("categories.html")}" href="categories.html">${window.UI.icon("grid", "currentColor")}<span>دسته‌بندی</span></a>
+      <a class="${bottomNavActive("pricing.html")}" href="pricing.html">${window.UI.icon("briefcase", "currentColor")}<span>تعرفه‌ها</span></a>
+    </nav>`;
   }
 
   function renderFooter() {
