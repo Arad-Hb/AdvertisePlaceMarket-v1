@@ -48,7 +48,7 @@ window.PanelLayout = (function () {
     const profileUrl = currentRole === "Admin" ? "account.html" : "profile.html";
     const settingsUrl = currentRole === "Admin" ? "account.html" : "settings.html";
     host.innerHTML = `<header class="panel-header" id="panelHeader"><button class="panel-header__toggle" id="sidebarToggle" type="button" aria-label="باز و بسته کردن سایدبار">${window.PanelUI.icon('menu','#fff')}</button><div class="panel-header__inner">
-      <div class="d-flex align-items-center gap-3 min-w-0"><a class="panel-header__brand" href="${cfg.pageUrl('index.html')}"><img src="${cfg.brandLogo}" alt="تحلیل داده"><strong>تحلیل داده آگهی</strong></a><a class="panel-header__back" href="${cfg.pageUrl('index.html')}">${window.PanelUI.icon('home','#fff')}<span>بازگشت به فروشگاه</span></a></div>
+      <div class="d-flex align-items-center gap-3 min-w-0"><a class="panel-header__brand" href="${cfg.pageUrl('index.html')}"><img src="${cfg.brandLogo}" alt="تحلیل داده"><strong>تحلیل داده آگهی</strong></a></div>
       <div class="panel-header__left"><div class="dropdown panel-user-dropdown"><button class="panel-user-dropdown__button" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="${window.UI.escapeHtml(userAvatar(user))}" alt=""><span>${window.UI.escapeHtml(userName(user))}</span><b aria-hidden="true">${window.PanelUI.icon('chevronDown')}</b></button><ul class="dropdown-menu dropdown-menu-start"><li><a class="dropdown-item" href="${profileUrl}">${window.PanelUI.icon('user','#516170')}<span>پروفایل من</span></a></li><li><a class="dropdown-item" href="${settingsUrl}">${window.PanelUI.icon('gear','#516170')}<span>تنظیمات</span></a></li><li><a class="dropdown-item" href="${cfg.pageUrl('index.html')}">${window.PanelUI.icon('home','#0d6efd')}<span>بازگشت به فروشگاه</span></a></li><li><hr class="dropdown-divider"></li><li><button class="dropdown-item text-danger" id="headerLogout" type="button">${window.PanelUI.icon('logout','#dc3545')}<span>خروج</span></button></li></ul></div></div>
     </div></header>`;
   }
@@ -89,6 +89,7 @@ window.PanelLayout = (function () {
     renderSidebar(user); renderHeader(user); renderFooter(); applySidebarState(); bind();
     document.querySelectorAll('[data-current-user-name]').forEach(el => el.textContent = userName(user));
     document.querySelectorAll('[data-current-user-avatar]').forEach(el => el.src = userAvatar(user));
+    window.PersianDatePicker?.enhanceAll();
     return user;
   }
 
