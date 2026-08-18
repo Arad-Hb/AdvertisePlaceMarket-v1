@@ -45,7 +45,7 @@
     if (!categories.length) { categoryHost.innerHTML = window.UI.emptyMarkup(); return; }
     categoryHost.innerHTML = categories.slice(0, 8).map((item, index) => {
       const visual = window.UI.categoryVisual(item.categoryName, index);
-      return `<a class="home-category" href="${window.Categories.categoryUrl(item.advertisementCategoryID)}"><span class="home-category__icon" style="--cat-color:${visual.color}">${window.UI.icon(visual.iconName, "#4DB7FE")}</span><strong>${window.UI.escapeHtml(item.categoryName)}</strong><small>${Number(item.advertisementCount || 0).toLocaleString("fa-IR")} آگهی</small></a>`;
+      return `<a class="home-category" href="${window.Categories.categoryUrl(item.advertisementCategoryID)}"><span class="home-category__icon" style="--cat-color:${visual.color}">${window.UI.icon(visual.iconName, "#28a9f5")}</span><strong>${window.UI.escapeHtml(item.categoryName)}</strong><small>${Number(item.advertisementCount || 0).toLocaleString("fa-IR")} آگهی</small></a>`;
     }).join("");
   }
 

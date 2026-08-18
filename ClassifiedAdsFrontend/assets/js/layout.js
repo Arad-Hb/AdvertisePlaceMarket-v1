@@ -15,12 +15,12 @@
       <a class="site-brand" href="index.html"><img src="assets/images/logo/tahlildadeh-logo.png" alt="تحلیل داده آگهی"><span>تحلیل داده آگهی</span></a>
       <div class="desktop-links">
         <a class="${activeClass("home")}" href="index.html">خانه</a>
-        <div class="mega-wrap"><button type="button" id="megaToggle">دسته‌بندی‌ها <span>⌄</span></button><div class="mega-menu" id="megaMenu"><div class="mega-menu__head"><strong>دسته‌بندی آگهی‌ها</strong><a href="categories.html">مشاهده همه</a></div><div class="mega-menu__grid" id="megaMenuContent">${window.UI.loadingMarkup()}</div></div></div>
+        <div class="mega-wrap"><button type="button" id="megaToggle" aria-expanded="false" aria-controls="megaMenu">دسته‌بندی‌ها <span aria-hidden="true">${window.UI.icon("chevronDown")}</span></button><div class="mega-menu" id="megaMenu"><div class="mega-menu__head"><strong>دسته‌بندی آگهی‌ها</strong><a href="categories.html">مشاهده همه</a></div><div class="mega-menu__grid" id="megaMenuContent">${window.UI.loadingMarkup()}</div></div></div>
         <a class="${activeClass("ads")}" href="advertisements.html">آگهی‌ها</a>
         <a class="${activeClass("pricing")}" href="pricing.html">تعرفه‌ها</a>
       </div>
-      <form class="header-search header-search--desktop" data-header-search><input name="keyword" type="search" placeholder="جستجو"><button aria-label="جستجو">${window.UI.icon("search", "#ff8a1f")}</button></form>
-      <form class="header-search header-search--mobile" data-header-search><input name="keyword" type="search" placeholder="جستجو"><button aria-label="جستجو">${window.UI.icon("search", "#ff8a1f")}</button></form>
+      <form class="header-search header-search--desktop" data-header-search><input name="keyword" type="search" placeholder="جستجو"><button aria-label="جستجو">${window.UI.icon("search", "#FF6500")}</button></form>
+      <form class="header-search header-search--mobile" data-header-search><input name="keyword" type="search" placeholder="جستجو"><button aria-label="جستجو">${window.UI.icon("search", "#FF6500")}</button></form>
       <div class="header-actions" id="headerUserArea"><a class="header-auth" href="login.html" aria-label="ورود یا ثبت نام">${window.UI.icon("user", "#fff")}<span>ورود / ثبت‌نام</span></a><a class="btn header-post" href="login.html?returnUrl=customer/create-advertisement.html">+ ثبت آگهی</a></div>
       <a class="mobile-auth" href="login.html" aria-label="ورود یا ثبت نام">${window.UI.icon("user", "#fff")}</a>
     </div></nav></header>
@@ -38,7 +38,7 @@
     footerRoot.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid">
       <section class="footer-brand"><img src="assets/images/logo/tahlildadeh-logo.png" alt="تحلیل داده آگهی"><div><h2>تحلیل داده آگهی</h2><p id="footerDescription">سامانه‌ای ساده برای جستجو، مشاهده و ثبت آگهی‌های آنلاین.</p></div></section>
       <section><h3>دسترسی سریع</h3><nav class="footer-links"><a href="index.html">خانه</a><a href="categories.html">دسته‌بندی‌ها</a><a href="advertisements.html">آگهی‌ها</a><a href="pricing.html">تعرفه‌ها</a></nav></section>
-      <section><h3>درباره، قوانین و حریم خصوصی</h3><p class="footer-summary">استفاده از این سامانه به معنی پذیرش قوانین انتشار آگهی، رعایت حقوق کاربران و حفظ اطلاعات شخصی مطابق سیاست‌های سایت است. مسئولیت صحت محتوای هر آگهی بر عهده ثبت‌کننده آن است.</p><div class="footer-socials" id="footerSocials"></div></section>
+      <section><div class="footer-legal"><h3>درباره، قوانین و حریم خصوصی</h3><p class="footer-summary">استفاده از این سامانه به معنی پذیرش قوانین انتشار آگهی، رعایت حقوق کاربران و حفظ اطلاعات شخصی مطابق سیاست‌های سایت است. مسئولیت صحت محتوای هر آگهی بر عهده ثبت‌کننده آن است.</p></div><div class="footer-socials" id="footerSocials"></div></section>
     </div><div class="footer-bottom"><span>© ۱۴۰۵ تحلیل داده آگهی — همه حقوق محفوظ است.</span></div></div></footer>`;
   }
 
@@ -53,11 +53,22 @@
   function bindMega() {
     const toggle = document.getElementById("megaToggle");
     const menu = document.getElementById("megaMenu");
-    if (!toggle || !menu) return;
+    const wrap = toggle?.closest(".mega-wrap");
+    if (!toggle || !menu || !wrap) return;
     const close = () => { menu.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); };
-    toggle.addEventListener("click", event => { event.stopPropagation(); menu.classList.toggle("is-open"); toggle.setAttribute("aria-expanded", String(menu.classList.contains("is-open"))); });
+    toggle.addEventListener("click", event => {
+      event.stopPropagation();
+      menu.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(menu.classList.contains("is-open")));
+    });
+    wrap.addEventListener("mouseleave", close);
     document.addEventListener("click", event => { if (!event.target.closest(".mega-wrap")) close(); });
     document.addEventListener("keydown", event => { if (event.key === "Escape") close(); });
+    document.addEventListener("scroll", event => {
+      const target = event.target;
+      if (target instanceof Node && menu.contains(target)) return;
+      close();
+    }, { capture: true, passive: true });
   }
 
   async function loadNavData() {
@@ -81,7 +92,7 @@
     const isCustomer = window.Auth.hasRole("Customer");
     const primaryHref = isCustomer ? "customer/create-advertisement.html" : "admin/index.html";
     const primaryLabel = isCustomer ? "+ ثبت آگهی" : "مدیریت سایت";
-    host.innerHTML = `<div class="header-user dropdown"><button class="header-user__button" data-bs-toggle="dropdown" aria-expanded="false"><img src="${window.UI.escapeHtml(avatar)}" alt=""><span>${window.UI.escapeHtml(name)}</span><b>⌄</b></button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="${window.Auth.dashboardUrl()}">${window.Auth.hasRole("Admin") ? "مدیریت سایت" : "پنل کاربری"}</a></li>${isCustomer ? '<li><a class="dropdown-item" href="customer/favorites.html">علاقه‌مندی‌ها</a></li>' : ''}<li><button class="dropdown-item text-danger" id="logoutButton">خروج</button></li></ul></div><a class="btn header-post" href="${primaryHref}">${primaryLabel}</a>`;
+    host.innerHTML = `<div class="header-user dropdown"><button class="header-user__button" data-bs-toggle="dropdown" aria-expanded="false"><img src="${window.UI.escapeHtml(avatar)}" alt=""><span>${window.UI.escapeHtml(name)}</span><b aria-hidden="true">${window.UI.icon("chevronDown")}</b></button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="${window.Auth.dashboardUrl()}">${window.Auth.hasRole("Admin") ? "مدیریت سایت" : "پنل کاربری"}</a></li>${isCustomer ? '<li><a class="dropdown-item" href="customer/favorites.html">علاقه‌مندی‌ها</a></li>' : ''}<li><button class="dropdown-item text-danger" id="logoutButton">خروج</button></li></ul></div><a class="btn header-post" href="${primaryHref}">${primaryLabel}</a>`;
     document.getElementById("logoutButton")?.addEventListener("click", () => window.Auth.logout());
     const mobileAuth = document.querySelector(".mobile-auth");
     if (mobileAuth) { mobileAuth.href = window.Auth.dashboardUrl(); mobileAuth.innerHTML = `<img src="${window.UI.escapeHtml(avatar)}" alt="${window.UI.escapeHtml(name)}">`; }
@@ -101,5 +112,57 @@
     } catch { /* footer remains useful with defaults */ }
   }
 
-  renderHeader(); renderFooter(); bindHeaderSearch(); bindMega(); loadNavData(); loadUser(); loadFooterSettings();
+  function bindMobileBottomNavLift() {
+    const nav = document.querySelector(".mobile-bottom-nav");
+    if (!nav) return;
+    const mq = window.matchMedia("(max-width: 991.98px)");
+    const gap = 8;
+    let ticking = false;
+    let observer;
+
+    function resetNav() {
+      nav.style.bottom = "";
+      nav.classList.remove("is-above-footer");
+    }
+
+    function updateLift() {
+      ticking = false;
+      if (!mq.matches) { resetNav(); return; }
+      const footer = document.querySelector(".site-footer");
+      if (!footer) { resetNav(); return; }
+      const viewportHeight = window.innerHeight;
+      const footerTop = footer.getBoundingClientRect().top;
+      if (footerTop < viewportHeight) {
+        nav.style.bottom = `${Math.max(gap, viewportHeight - footerTop + gap)}px`;
+        nav.classList.add("is-above-footer");
+      } else {
+        resetNav();
+      }
+    }
+
+    function requestLift() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateLift);
+    }
+
+    function syncObserver() {
+      observer?.disconnect();
+      observer = null;
+      if (!mq.matches) { resetNav(); return; }
+      const footer = document.querySelector(".site-footer");
+      if (!footer || typeof IntersectionObserver === "undefined") { requestLift(); return; }
+      observer = new IntersectionObserver(requestLift, { threshold: [0, 0.01, 1] });
+      observer.observe(footer);
+      requestLift();
+    }
+
+    window.addEventListener("scroll", requestLift, { passive: true });
+    window.addEventListener("resize", requestLift, { passive: true });
+    window.visualViewport?.addEventListener("resize", requestLift, { passive: true });
+    mq.addEventListener("change", syncObserver);
+    syncObserver();
+  }
+
+  renderHeader(); renderFooter(); bindHeaderSearch(); bindMega(); bindMobileBottomNavLift(); loadNavData(); loadUser(); loadFooterSettings();
 })();

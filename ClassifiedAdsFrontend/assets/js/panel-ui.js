@@ -9,6 +9,8 @@ window.PanelUI = (function () {
   function icon(name, color) {
     const c = color || "currentColor";
     const p = {
+      chevronDown:`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      bottomArrow:`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
       dashboard:`<svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 1 1 16 0" fill="none" stroke="${c}" stroke-width="1.8"/><path d="m12 13 4-4" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="13" r="2" fill="${c}"/><path d="M6 17h12" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/></svg>`,
       ads:`<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z" fill="none" stroke="${c}" stroke-width="1.7"/><path d="M15 3v5h5M9 12h7M9 16h7" fill="none" stroke="${c}" stroke-width="1.7" stroke-linecap="round"/></svg>`,
       add:`<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="${c}" stroke-width="2" stroke-linecap="round"/></svg>`,

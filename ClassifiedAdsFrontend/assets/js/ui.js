@@ -28,6 +28,7 @@ window.UI = (function () {
       device:`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="11" height="9" rx="1.5" fill="none" stroke="${c}" stroke-width="1.7"/><rect x="16" y="7" width="5" height="11" rx="1.2" fill="none" stroke="${c}" stroke-width="1.7"/><path d="M7 18h5" stroke="${c}" stroke-width="1.7" stroke-linecap="round"/></svg>`,
       heart:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.7a5.3 5.3 0 0 0-7.5 0L12 6l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 21l8.8-8.8a5.3 5.3 0 0 0 0-7.5Z" fill="none" stroke="${c}" stroke-width="1.7"/></svg>`,
       arrowLeft:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      chevronDown:`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
       menu:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="${c}" stroke-width="1.9" stroke-linecap="round"/></svg>`,
       check:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
     };
@@ -80,10 +81,10 @@ window.UI = (function () {
     const title = escapeHtml(ad.title);
     const category = escapeHtml(ad.categoryName);
     const location = escapeHtml([ad.provinceName, ad.cityName].filter(Boolean).join("، "));
-    return `<div class="col-12 col-sm-6 col-lg-4"><article class="ad-card">
+    return `<div class="col-6 col-sm-6 col-lg-4"><article class="ad-card">
       <a class="ad-card__main" href="advertisement-details.html?id=${encodeURIComponent(id)}">
         <div class="ad-card__image-wrap"><img src="${escapeHtml(image)}" alt="${title}" loading="lazy" onerror="this.src='${window.AppConfig.defaultAdvertisementImage}'">${ad.isImmediate ? '<span class="urgent-badge">فوری</span>' : ''}</div>
-        <div class="ad-card__body"><span class="ad-card__category">${category}</span><h3>${title}</h3><div class="ad-card__location">${icon("pin", "#ff8a1f")}<span>${location}</span></div><div class="ad-card__price">${formatPrice(ad.price)}</div><div class="ad-card__footer"><span>${escapeHtml(ad.createDatePersian || "")}</span><button class="favorite-btn" data-favorite-id="${id}" type="button" aria-label="ذخیره آگهی">${icon("heart", "currentColor")}</button></div></div>
+        <div class="ad-card__body"><span class="ad-card__category">${category}</span><h3>${title}</h3><div class="ad-card__location">${icon("pin", "#FF6500")}<span>${location}</span></div><div class="ad-card__price">${formatPrice(ad.price)}</div><div class="ad-card__footer"><span>${escapeHtml(ad.createDatePersian || "")}</span><button class="favorite-btn" data-favorite-id="${id}" type="button" aria-label="ذخیره آگهی">${icon("heart", "currentColor")}</button></div></div>
       </a></article></div>`;
   }
   function applySeo(data) {

@@ -23,7 +23,7 @@
   }
 
   function addInputIcons() {
-    const map = { firstName:["user","#7e57c2"], lastName:["user","#15b6cd"], email:["mail","#ff8a1f"], mobileNumber:["phone","#25c46a"], password:["lock","#1B70CC"], confirmPassword:["lock","#ef5350"] };
+    const map = { firstName:["user","#1E3E62"], lastName:["user","#28a9f5"], email:["mail","#FF6500"], mobileNumber:["phone","#25c46a"], password:["lock","#1E3E62"], confirmPassword:["lock","#ef5350"] };
     Object.entries(map).forEach(([name, info]) => {
       const input = form.elements[name]; if (!input) return;
       const shell = input.closest(".auth-input-shell");

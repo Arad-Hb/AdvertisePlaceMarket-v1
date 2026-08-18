@@ -44,7 +44,7 @@ window.Categories = (function () {
     host.innerHTML = categories.map((parent, index) => {
       const visual = window.UI.categoryVisual(parent.categoryName, index);
       return `<section class="mega-category">
-        <a class="mega-category__title" href="${categoryUrl(parent.advertisementCategoryID)}"><span class="mega-category__icon" style="--cat-color:${visual.color}">${window.UI.icon(visual.iconName, "#fff")}</span><span>${window.UI.escapeHtml(parent.categoryName)}</span></a>
+        <a class="mega-category__title" href="${categoryUrl(parent.advertisementCategoryID)}"><span class="mega-category__icon" style="--cat-color:${visual.color}">${window.UI.icon(visual.iconName, "#fff")}</span><span class="mega-category__name">${window.UI.escapeHtml(parent.categoryName)}</span></a>
         <div class="mega-category__children">${(parent.children || []).slice(0,7).map(child => `<a href="${categoryUrl(child.advertisementCategoryID)}">${window.UI.escapeHtml(child.categoryName)}</a>`).join("")}</div>
       </section>`;
     }).join("");

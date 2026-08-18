@@ -56,7 +56,7 @@
         updateUrl({
           Keyword: fd.get("Keyword"), AdvertisementCategoryID: fd.get("AdvertisementCategoryID"),
           ProvinceID: fd.get("ProvinceID"), CityID: fd.get("CityID"), MinPrice: fd.get("MinPrice"), MaxPrice: fd.get("MaxPrice"),
-          IsImmediate: form.querySelector('[name="IsImmediate"]').checked ? "true" : "", Sort: q.get("Sort") || "newest", PageIndex: 1
+          IsImmediate: form.querySelector('[name="IsImmediate"]').checked ? "true" : "", Sort: fd.get("Sort") || q.get("Sort") || "newest", PageIndex: 1
         });
       });
       form.querySelector("[data-clear-filters]")?.addEventListener("click", () => location.href = "advertisements.html");
