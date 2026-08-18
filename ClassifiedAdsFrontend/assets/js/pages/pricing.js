@@ -20,19 +20,10 @@
   }
   async function choosePlan(button) {
     const id = button.dataset.planId;
-    if (!window.Auth.isAuthenticated()) return window.Auth.redirectToLogin(`pricing.html?purchasePlanID=${encodeURIComponent(id)}`);
-    if (!window.Auth.hasRole("Customer")) return window.UI.showToast("خرید پلن فقط برای کاربران Customer امکان‌پذیر است.", "warning");
-    const original = button.textContent;
-    button.disabled = true; button.textContent = "در حال فعال‌سازی...";
-    try {
-      const response = await window.Api.post(window.AppConfig.endpoints.purchaseMembership(id), {});
-      window.UI.showToast(response.data.message || "پلن با موفقیت فعال شد.", "success");
-      button.textContent = "فعال شد";
-    } catch (error) {
-      window.UI.showToast(window.Api.normalizeError(error).message, "error");
-      button.textContent = original;
-      button.disabled = false;
-    }
+    const customerTarget = `customer/membership.html?planId=${encodeURIComponent(id)}`;
+    if (!window.Auth.isAuthenticated()) return window.Auth.redirectToLogin(customerTarget);
+    if (!window.Auth.hasRole("Customer")) return window.UI.showToast("انتخاب پلن فقط برای کاربران مشتری امکان‌پذیر است.", "warning");
+    location.href = customerTarget;
   }
   load();
 })();

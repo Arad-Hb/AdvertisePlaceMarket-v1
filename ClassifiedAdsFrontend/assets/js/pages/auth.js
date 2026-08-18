@@ -48,8 +48,8 @@
       if (mode === "login") {
         await window.Auth.login({ mobileNumber: fd.get("mobileNumber"), password: fd.get("password"), rememberMe: fd.get("rememberMe") === "on" });
         window.UI.showToast("ورود با موفقیت انجام شد.", "success");
-        const returnUrl = new URLSearchParams(location.search).get("returnUrl");
-        setTimeout(() => location.href = returnUrl || window.Auth.dashboardUrl(), 380);
+        const returnUrl = window.Auth.resolveReturnUrl(new URLSearchParams(location.search).get("returnUrl"));
+        setTimeout(() => { location.href = returnUrl || window.Auth.dashboardUrl(); }, 380);
       } else {
         if (fd.get("password") !== fd.get("confirmPassword")) throw new Error("رمز عبور و تکرار آن یکسان نیستند.");
         const model = { firstName: fd.get("firstName"), lastName: fd.get("lastName"), mobileNumber: fd.get("mobileNumber"), email: fd.get("email") || null, password: fd.get("password"), confirmPassword: fd.get("confirmPassword") };

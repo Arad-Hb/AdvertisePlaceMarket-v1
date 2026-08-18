@@ -73,17 +73,46 @@ window.Auth = (function () {
     }
   }
   async function logout() {
-    try { if (isAuthenticated()) await window.Api.post(cfg.endpoints.logout, {}); } catch { /* token is cleared locally anyway */ }
+    try { if (isAuthenticated()) await window.Api.post(cfg.endpoints.logout, {}); } catch { /* local logout still continues */ }
     clear();
-    location.href = "index.html";
+    location.href = cfg.pageUrl("index.html");
+  }
+  function resolveReturnUrl(raw) {
+    if (!raw || typeof raw !== "string") return null;
+    const value = raw.trim();
+    if (!value || value.startsWith("//")) return null;
+    if (/^(javascript|data|vbscript):/i.test(value)) return null;
+
+    try {
+      const target = new URL(value, `${location.origin}/`);
+      if (target.origin !== location.origin) return null;
+      const path = `${target.pathname}${target.search}${target.hash}`;
+      return path.startsWith("/") ? path.slice(1) : path;
+    } catch {
+      return null;
+    }
   }
   function redirectToLogin(returnUrl, mode) {
     const q = new URLSearchParams();
-    if (returnUrl) q.set("returnUrl", returnUrl);
+    const safeReturnUrl = resolveReturnUrl(returnUrl);
+    if (safeReturnUrl) q.set("returnUrl", safeReturnUrl);
     if (mode === "register") q.set("mode", "register");
-    location.href = `login.html?${q.toString()}`;
+    location.href = `${cfg.pageUrl("login.html")}?${q.toString()}`;
   }
-  function dashboardUrl() { return hasRole("Admin") ? "admin/index.html" : "customer/index.html"; }
+  function dashboardUrl() {
+    return cfg.pageUrl(hasRole("Admin") ? "admin/index.html" : "customer/index.html");
+  }
+  function requireRole(role) {
+    if (!isAuthenticated()) {
+      redirectToLogin(location.href);
+      return false;
+    }
+    if (!hasRole(role)) {
+      location.href = dashboardUrl();
+      return false;
+    }
+    return true;
+  }
 
-  return { getAccessToken, getCurrentUser, isAuthenticated, hasRole, login, register, loadAuthenticatedUser, logout, redirectToLogin, dashboardUrl, clear };
+  return { getAccessToken, getCurrentUser, isAuthenticated, hasRole, login, register, loadAuthenticatedUser, logout, redirectToLogin, resolveReturnUrl, dashboardUrl, requireRole, clear };
 })();

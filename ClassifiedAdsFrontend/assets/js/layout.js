@@ -70,10 +70,15 @@
     if (!user) return;
     const name = `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.mobileNumber;
     const avatar = window.UI.mediaUrl(user.avatarPath, window.AppConfig.defaultAvatar);
-    host.innerHTML = `<div class="header-user dropdown"><button class="header-user__button" data-bs-toggle="dropdown" aria-expanded="false"><img src="${window.UI.escapeHtml(avatar)}" alt=""><span>${window.UI.escapeHtml(name)}</span><b>⌄</b></button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="${window.Auth.dashboardUrl()}">${window.Auth.hasRole("Admin") ? "مدیریت سایت" : "پنل کاربری"}</a></li>${window.Auth.hasRole("Customer") ? '<li><a class="dropdown-item" href="customer/favorites.html">علاقه‌مندی‌ها</a></li>' : ''}<li><button class="dropdown-item text-danger" id="logoutButton">خروج</button></li></ul></div><a class="btn header-post" href="${window.Auth.hasRole("Customer") ? "customer/create-advertisement.html" : "admin/index.html"}">+ ثبت آگهی</a>`;
+    const isCustomer = window.Auth.hasRole("Customer");
+    const primaryHref = isCustomer ? "customer/create-advertisement.html" : "admin/index.html";
+    const primaryLabel = isCustomer ? "+ ثبت آگهی" : "مدیریت سایت";
+    host.innerHTML = `<div class="header-user dropdown"><button class="header-user__button" data-bs-toggle="dropdown" aria-expanded="false"><img src="${window.UI.escapeHtml(avatar)}" alt=""><span>${window.UI.escapeHtml(name)}</span><b>⌄</b></button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="${window.Auth.dashboardUrl()}">${window.Auth.hasRole("Admin") ? "مدیریت سایت" : "پنل کاربری"}</a></li>${isCustomer ? '<li><a class="dropdown-item" href="customer/favorites.html">علاقه‌مندی‌ها</a></li>' : ''}<li><button class="dropdown-item text-danger" id="logoutButton">خروج</button></li></ul></div><a class="btn header-post" href="${primaryHref}">${primaryLabel}</a>`;
     document.getElementById("logoutButton")?.addEventListener("click", () => window.Auth.logout());
     const mobileAuth = document.querySelector(".mobile-auth");
     if (mobileAuth) { mobileAuth.href = window.Auth.dashboardUrl(); mobileAuth.innerHTML = `<img src="${window.UI.escapeHtml(avatar)}" alt="${window.UI.escapeHtml(name)}">`; }
+    const mobilePost = document.querySelector(".mobile-post-link");
+    if (mobilePost) { mobilePost.href = primaryHref; mobilePost.textContent = primaryLabel; }
   }
 
   async function loadFooterSettings() {

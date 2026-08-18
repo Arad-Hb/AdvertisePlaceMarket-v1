@@ -1,0 +1,88 @@
+(function () {
+  const rootPath = document.documentElement.dataset.appRoot || "";
+  const pageUrl = path => `${rootPath}${String(path).replace(/^\//, "")}`;
+  const assetUrl = path => pageUrl(path);
+
+  window.AppConfig = {
+    rootPath,
+    pageUrl,
+    assetUrl,
+    apiBaseUrl: "http://localhost:5086/api",
+    mediaBaseUrl: "http://localhost:5086",
+    siteName: "تحلیل داده آگهی",
+    tokenStorageKey: "td_agahi_access_token",
+    userStorageKey: "td_agahi_current_user",
+    sidebarStorageKey: "td_agahi_sidebar_collapsed",
+    pageSize: 9,
+    panelPageSize: 10,
+    defaultAdvertisementImage: assetUrl("assets/images/placeholders/advertisement-placeholder.svg"),
+    defaultAvatar: assetUrl("assets/images/placeholders/default-avatar.svg"),
+    brandLogo: assetUrl("assets/images/logo/tahlildadeh-logo.png"),
+    endpoints: {
+      siteHome: "/site/home",
+      siteSettings: "/site/settings",
+      categoriesMenu: "/categories/menu",
+      categoryDetails: id => `/categories/${id}`,
+      categoryBySlug: slug => `/categories/by-slug/${encodeURIComponent(slug)}`,
+      provinces: "/provinces",
+      provinceDetails: id => `/provinces/${id}`,
+      citiesByProvince: id => `/cities/by-province/${id}`,
+      cityDetails: id => `/cities/${id}`,
+      advertisements: "/advertisements",
+      advertisementDetails: id => `/advertisements/${id}`,
+      advertisementBySlug: slug => `/advertisements/by-slug/${encodeURIComponent(slug)}`,
+      membershipPlans: "/membership-plans",
+      membershipPlanDetails: id => `/membership-plans/${id}`,
+
+      login: "/account/login",
+      register: "/account/register",
+      logout: "/account/logout",
+      authenticatedUser: "/account/authenticated-user",
+      changePassword: "/account/change-password",
+
+      customerAdvertisements: "/customer/advertisements",
+      customerAdvertisement: id => `/customer/advertisements/${id}`,
+      customerAdvertisementSubmit: id => `/customer/advertisements/${id}/submit`,
+      customerFavorites: "/customer/favorites",
+      favoriteByAdvertisement: id => `/customer/favorites/${id}`,
+      customerMembership: "/customer/membership",
+      purchaseMembership: id => `/customer/membership/purchase/${id}`,
+      customerPayments: "/customer/payments",
+      customerAvatar: "/file-manager/customer/avatar",
+      advertisementImages: id => `/file-manager/advertisements/${id}/images`,
+      advertisementImage: (advertisementId, imageId) => `/file-manager/advertisements/${advertisementId}/images/${imageId}`,
+      advertisementMainImage: (advertisementId, imageId) => `/file-manager/advertisements/${advertisementId}/images/${imageId}/main`,
+
+      adminDashboard: "/admin/dashboard",
+      adminAdvertisements: "/admin/advertisements",
+      adminAdvertisement: id => `/admin/advertisements/${id}`,
+      adminApproveAdvertisement: id => `/admin/advertisements/${id}/approve`,
+      adminRejectAdvertisement: id => `/admin/advertisements/${id}/reject`,
+      adminDisableAdvertisement: id => `/admin/advertisements/${id}/disable`,
+      adminCustomers: "/admin/customers",
+      adminActivateCustomer: id => `/admin/customers/${encodeURIComponent(id)}/activate`,
+      adminDeactivateCustomer: id => `/admin/customers/${encodeURIComponent(id)}/deactivate`,
+      adminCategories: "/admin/categories",
+      adminCategory: id => `/admin/categories/${id}`,
+      adminProvinces: "/admin/provinces",
+      adminProvince: id => `/admin/provinces/${id}`,
+      adminCities: "/admin/cities",
+      adminCity: id => `/admin/cities/${id}`,
+      adminMembershipPlans: "/admin/membership-plans",
+      adminMembershipPlan: id => `/admin/membership-plans/${id}`,
+      adminPayments: "/admin/payments",
+      adminSiteSetting: "/admin/site-setting",
+      adminHeroBanners: "/admin/hero-banners",
+      adminHeroBanner: id => `/admin/hero-banners/${id}`,
+      adminHeroBannerActivate: id => `/admin/hero-banners/${id}/activate`,
+      adminHeroBannerDeactivate: id => `/admin/hero-banners/${id}/deactivate`,
+      adminLogoUpload: "/file-manager/site/logo",
+      adminFaviconUpload: "/file-manager/site/favicon",
+      heroBannerImage: id => `/file-manager/hero-banners/${id}/image`
+    },
+    demoAccounts: {
+      admin: { mobile: "09120000001", password: "Admin@123456" },
+      customer: { mobile: "09120000002", password: "Customer@123456" }
+    }
+  };
+})();

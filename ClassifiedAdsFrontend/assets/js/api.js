@@ -2,7 +2,7 @@ window.Api = (function () {
   const client = axios.create({
     baseURL: window.AppConfig.apiBaseUrl,
     timeout: 20000,
-    headers: { Accept: "application/json", "Content-Type": "application/json" }
+    headers: { Accept: "application/json" }
   });
 
   client.interceptors.request.use(function (config) {
@@ -23,12 +23,21 @@ window.Api = (function () {
     return { status: error.response.status, message, data };
   }
 
+  function upload(url, formData, config) {
+    return client.post(url, formData, {
+      ...(config || {}),
+      headers: { ...((config && config.headers) || {}), "Content-Type": "multipart/form-data" }
+    });
+  }
+
   return {
     client,
     get: (url, config) => client.get(url, config),
     post: (url, data, config) => client.post(url, data, config),
     put: (url, data, config) => client.put(url, data, config),
+    patch: (url, data, config) => client.patch(url, data, config),
     delete: (url, config) => client.delete(url, config),
+    upload,
     normalizeError
   };
 })();
